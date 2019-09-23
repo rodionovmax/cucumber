@@ -1,6 +1,7 @@
 package steps;
 
 import Base.BaseUtil;
+import com.aventstack.extentreports.GherkinKeyword;
 import cucumber.api.DataTable;
 import cucumber.api.Transform;
 import cucumber.api.java.en.And;
@@ -28,6 +29,7 @@ public class LoginStep extends BaseUtil {
     @Given("^I navigate to login page of the application$")
     public void iNavigateToLoginPageOfTheApplication() throws Throwable {
         System.out.println("Navigate to Login page\n");
+        scenarioDef.createNode(new GherkinKeyword("Given"), "I navigate to login page of the application");
         String pageUrl = "http://www.executeautomation.com/demosite/Login.html";
         base.Driver.navigate().to(pageUrl);
 
@@ -35,13 +37,13 @@ public class LoginStep extends BaseUtil {
 
     @And("^I enter following for login$")
     public void iEnterFollowingForLogin(DataTable table) throws Throwable {
+        scenarioDef.createNode(new GherkinKeyword("And"), "I enter following for login");
 
         List<User> users = new ArrayList<User>();
         users = table.asList(User.class);
 
         for (User user : users) {
             LoginPage page = new LoginPage(base.Driver);
-
             page.Login(user.username, user.password);
         }
 
@@ -50,6 +52,7 @@ public class LoginStep extends BaseUtil {
     @And("^I click login button$")
     public void iClickLoginButton() throws Throwable {
 //        base.Driver.findElement(By.name("Login")).submit();
+        scenarioDef.createNode(new GherkinKeyword("And"), "I click login button");
         LoginPage page = new LoginPage(base.Driver);
 
         page.ClickLogin();
@@ -57,29 +60,32 @@ public class LoginStep extends BaseUtil {
 
     @Then("^I should see the userform page$")
     public void iShouldSeeTheUserformPage() throws Throwable {
+        scenarioDef.createNode(new GherkinKeyword("Then"), "I should see the userform page");
         Assert.assertTrue(base.Driver.findElement(By.id("Initial")).isDisplayed(), "It's not displayed");
     }
 
     @And("^I enter ([^\"]*) and ([^\"]*)$")
     public void iEnterUsernameAndPassword(String username, String password) throws Throwable {
+        scenarioDef.createNode(new GherkinKeyword("And"), "I enter ([^\"]*) and ([^\"]*)");
         System.out.println("Username is: " + username);
         System.out.println("Password is: " + password);
     }
 
     @And("^I enter the users email address as Email:([^\"]*)$")
     public void iEnterTheUsersEmailAddressAsEmailAdmin(@Transform(EmailTransform.class) String email) throws Throwable {
-
+        scenarioDef.createNode(new GherkinKeyword("And"), "I enter the users email address as Email");
         System.out.println("The email address is: " + email);
     }
 
     @And("^I verify the count of my salary digits for Rs (\\d+)$")
     public void iVerifyTheCountOfMySalaryDigitsForRs(@Transform(SalaryCountTransformer.class) int salary) throws Throwable {
-
+        scenarioDef.createNode(new GherkinKeyword("And"), "I verify the count of my salary digits for Rs");
         System.out.println("My salary digits is: " + salary);
     }
 
     @Then("^I should see the userform page wrongly$")
-    public void iShouldSeeTheUserformPageWrongly() {
+    public void iShouldSeeTheUserformPageWrongly() throws ClassNotFoundException {
+        scenarioDef.createNode(new GherkinKeyword("Then"), "I should see the userform page wrongly");
         Assert.assertTrue(base.Driver.findElement(By.id(".vsnvakafgkkga")).isDisplayed(), "It's not displayed");
     }
 
